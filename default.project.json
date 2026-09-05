@@ -1,0 +1,264 @@
+{
+  "name": "Github ROck GAME",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$ignoreUnknownInstances": true,
+      "Shared": {
+        "$path": "src/shared"
+      },
+      "RecipesConfig": {
+        "$path": "src/replicatedstorage/RecipesConfig.luau"
+      },
+      "HotbarState": {
+        "$path": "src/replicatedstorage/HotbarState.luau"
+      },
+      "ItemIconRenderer": {
+        "$path": "src/replicatedstorage/ItemIconRenderer.luau"
+      }
+    },
+    "ServerScriptService": {
+      "Server": {
+        "$path": "src/server"
+      },
+      "InventoryManager": {
+        "$path": "src/serverscriptservice/InventoryManager.luau"
+      },
+      "PickupServer": {
+        "$path": "src/serverscriptservice/PickupServer.server.luau"
+      },
+      "EquipmentServer": {
+        "$path": "src/serverscriptservice/EquipmentServer.server.luau"
+      },
+      "NodeRespawnManager": {
+        "$path": "src/serverscriptservice/NodeRespawnManager.server.luau"
+      },
+      "LevelManager": {
+        "$path": "src/serverscriptservice/LevelManager.luau"
+      },
+      "ArmorManager": {
+        "$path": "src/serverscriptservice/ArmorManager.luau"
+      },
+      "FurnaceManager": {
+        "$path": "src/serverscriptservice/FurnaceManager.server.luau"
+      },
+      "HungerManager": {
+        "$path": "src/serverscriptservice/HungerManager.luau"
+      },
+      "UWGroundSlowZone": {
+        "$path": "src/serverscriptservice/UWGroundSlowZone.server.luau"
+      },
+      "DisableSwimming": {
+        "$path": "src/serverscriptservice/DisableSwimming.server.luau"
+      },
+      "PlayerDataManager": {
+        "$path": "src/serverscriptservice/PlayerDataManager.luau"
+      },
+      "AdminManager": {
+        "$path": "src/serverscriptservice/AdminManager.server.luau"
+      },
+      "BoatManager": {
+        "$path": "src/serverscriptservice/BoatManager.server.luau"
+      },
+      "DeployablePlacementManager": {
+        "$path": "src/serverscriptservice/DeployablePlacementManager.luau"
+      },
+      "ArmorOffsetTuner": {
+        "$path": "src/serverscriptservice/ArmorOffsetTuner.server.luau"
+      },
+      "DropDespawner": {
+        "$path": "src/serverscriptservice/DropDespawner.server.luau"
+      },
+      "WorldBorder": {
+        "$path": "src/serverscriptservice/WorldBorder.server.luau"
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "Client": {
+          "$path": "src/client"
+        },
+        "PickupHandler": {
+          "$path": "src/starterplayerscripts/PickupHandler.client.luau"
+        },
+        "NodeHealthDisplay": {
+          "$path": "src/starterplayerscripts/NodeHealthDisplay.client.luau"
+        },
+        "DisableDefaultHotbar": {
+          "$path": "src/starterplayerscripts/DisableDefaultHotbar.client.luau"
+        },
+        "HotbarGuiLocal": {
+          "$path": "src/starterplayerscripts/HotbarGuiLocal.client.luau"
+        },
+        "LevelGuiLocal": {
+          "$path": "src/starterplayerscripts/LevelGuiLocal.client.luau"
+        },
+        "MainUIController": {
+          "$path": "src/starterplayerscripts/MainUIController.client.luau"
+        },
+        "PlacementController": {
+          "$path": "src/starterplayerscripts/PlacementController.client.luau"
+        },
+        "HungerGuiLocal": {
+          "$path": "src/starterplayerscripts/HungerGuiLocal.client.luau"
+        },
+        "HealthGuiLocal": {
+          "$path": "src/starterplayerscripts/HealthGuiLocal.client.luau"
+        },
+        "JumpCooldown": {
+          "$path": "src/starterplayerscripts/JumpCooldown.client.luau"
+        },
+        "QuietFootsteps": {
+          "$path": "src/starterplayerscripts/QuietFootsteps.client.luau"
+        },
+        "HotbarPersistence": {
+          "$path": "src/starterplayerscripts/HotbarPersistence.client.luau"
+        },
+        "AdminMenu": {
+          "$path": "src/starterplayerscripts/AdminMenu.client.luau"
+        },
+        "ArmorOffsetTuner": {
+          "$path": "src/starterplayerscripts/ArmorOffsetTuner.client.luau"
+        }
+      }
+    },
+    "ServerStorage": {
+      "$ignoreUnknownInstances": true,
+      "DropItems": {
+        "$className": "Folder",
+        "$ignoreUnknownInstances": true,
+        "WoodAxe": {
+          "$className": "Tool",
+          "$ignoreUnknownInstances": true,
+          "WoodAxeScript": {
+            "$path": "src/tools/WoodAxeScript.server.luau"
+          }
+        },
+        "StoneAxe": {
+          "$className": "Tool",
+          "$ignoreUnknownInstances": true,
+          "StoneAxeScript": {
+            "$path": "src/tools/StoneAxeScript.server.luau"
+          }
+        },
+        "IronAxe": {
+          "$className": "Tool",
+          "$ignoreUnknownInstances": true,
+          "IronAxe": {
+            "$path": "src/tools/IronAxeScript.server.luau"
+          }
+        },
+        "WoodenPickaxe": {
+          "$className": "Tool",
+          "$ignoreUnknownInstances": true,
+          "WoodPickaxeScript": {
+            "$path": "src/tools/WoodPickaxeScript.server.luau"
+          }
+        },
+        "StonePickaxe": {
+          "$className": "Tool",
+          "$ignoreUnknownInstances": true,
+          "StonePickaxeScript": {
+            "$path": "src/tools/StonePickaxeScript.server.luau"
+          }
+        },
+        "IronPickaxe": {
+          "$className": "Tool",
+          "$ignoreUnknownInstances": true,
+          "IronPickaxeScript": {
+            "$path": "src/tools/IronPickaxeScript.server.luau"
+          }
+        },
+        "AdminPickaxe": {
+          "$className": "Tool",
+          "$ignoreUnknownInstances": true,
+          "AdminPickaxeScript": {
+            "$path": "src/tools/AdminPickaxeScript.server.luau"
+          }
+        },
+        "Rock": {
+          "$className": "Tool",
+          "$ignoreUnknownInstances": true,
+          "Stonetoolscript": {
+            "$path": "src/tools/Stonetoolscript.server.luau"
+          }
+        },
+        "Bow": {
+          "$className": "Tool",
+          "$ignoreUnknownInstances": true,
+          "BowScript": {
+            "$path": "src/tools/BowScript.server.luau"
+          },
+          "BowClient": {
+            "$path": "src/tools/BowClient.client.luau"
+          }
+        }
+      }
+    },
+    "Workspace": {
+      "$properties": {
+        "FilteringEnabled": true
+      },
+      "$ignoreUnknownInstances": true,
+      "Baseplate": {
+        "$className": "Part",
+        "$properties": {
+          "Anchored": true,
+          "Color": [
+            0.38823,
+            0.37254,
+            0.38823
+          ],
+          "Locked": true,
+          "Position": [
+            0,
+            -10,
+            0
+          ],
+          "Size": [
+            512,
+            20,
+            512
+          ]
+        }
+      }
+    },
+    "Lighting": {
+      "$ignoreUnknownInstances": true,
+      "$properties": {
+        "Ambient": [
+          0,
+          0,
+          0
+        ],
+        "Brightness": 2.5,
+        "GlobalShadows": true,
+        "Outlines": false,
+        "Technology": "Future",
+        "FogColor": [0.75, 0.78, 0.82],
+        "FogStart": 300,
+        "FogEnd": 1400
+      },
+      "Vibrance": {
+        "$className": "ColorCorrectionEffect",
+        "$properties": {
+          "Saturation": 0.4,
+          "Contrast": 0.08
+        }
+      },
+      "Glow": {
+        "$className": "BloomEffect",
+        "$properties": {
+          "Intensity": 0.4,
+          "Size": 24,
+          "Threshold": 2
+        }
+      }
+    },
+    "SoundService": {
+      "$properties": {
+        "RespectFilteringEnabled": true
+      }
+    }
+  }
+}
