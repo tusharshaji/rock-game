@@ -3,14 +3,27 @@
 -- and asset-id every single item icon. Usable from both client and server scripts (ReplicatedStorage).
 local ItemIconRenderer = {}
 
-local photoboothExports = workspace:WaitForChild("PhotoboothExports")
+-- Resolved lazily rather than with a blocking workspace:WaitForChild at require time: this module
+-- is required by every UI script, so if the export folder is missing (or streams in late) a
+-- top-level WaitForChild would hang all of them permanently and no UI would build at all.
+local photoboothExports = workspace:FindFirstChild("PhotoboothExports")
 
 local CAMERA_FOV = 30
 local CAMERA_DIRECTION = Vector3.new(1, 0.65, 1).Unit -- fixed angle so every icon reads consistently
 local PADDING_FACTOR = 1.25 -- extra distance so the object doesn't touch the frame edges
 
+local function getExportsFolder()
+	if photoboothExports and photoboothExports.Parent then
+		return photoboothExports
+	end
+	photoboothExports = workspace:FindFirstChild("PhotoboothExports")
+	return photoboothExports
+end
+
 local function findIconSource(itemName)
-	return photoboothExports:FindFirstChild(itemName .. "_Icon")
+	local folder = getExportsFolder()
+	if not folder then return nil end
+	return folder:FindFirstChild(itemName .. "_Icon")
 end
 
 function ItemIconRenderer.HasIcon(itemName)

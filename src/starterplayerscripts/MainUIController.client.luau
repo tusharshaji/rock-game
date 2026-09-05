@@ -8,6 +8,13 @@ local playerGui = player:WaitForChild("PlayerGui")
 local RecipesConfig = require(ReplicatedStorage:WaitForChild("RecipesConfig"))
 local HotbarState = require(ReplicatedStorage:WaitForChild("HotbarState"))
 local ItemIconRenderer = require(ReplicatedStorage:WaitForChild("ItemIconRenderer"))
+-- Timed wait with a fallback, never an open-ended WaitForChild: ItemNames is a cosmetic helper,
+-- so if it hasn't replicated (or hasn't been synced into the place yet) the UI must still build.
+-- Blocking on it here takes the entire HUD down, which is far worse than raw item names.
+local itemNamesModule = ReplicatedStorage:WaitForChild("ItemNames", 5)
+local ItemNames = itemNamesModule and require(itemNamesModule) or {
+	Get = function(itemName) return itemName or "" end,
+}
 
 local updateEvent = ReplicatedStorage:WaitForChild("UpdateInventory")
 local dropEvent = ReplicatedStorage:WaitForChild("DropItem", 5)
@@ -369,7 +376,7 @@ local function createCraftingCard(recipeName, recipeData, layoutOrder, parent)
 	nameLbl.Size = UDim2.new(1, -110, 0.5, 0)
 	nameLbl.Position = UDim2.new(0, 12, 0, 8)
 	nameLbl.BackgroundTransparency = 1
-	nameLbl.Text = recipeData.DisplayName or recipeName
+	nameLbl.Text = ItemNames.Get(recipeName)
 	nameLbl.TextColor3 = Color3.fromRGB(255, 255, 255)
 	nameLbl.Font = Enum.Font.GothamBold
 	nameLbl.TextSize = 14
@@ -588,7 +595,7 @@ local function refreshInventory(invData, currentWeight, maxWeight, hotbarRestore
 				nameLabel.Size = UDim2.new(1, -60, 0.5, 0)
 				nameLabel.Position = UDim2.new(0, 60, 0, 8)
 				nameLabel.BackgroundTransparency = 1
-				nameLabel.Text = itemName
+				nameLabel.Text = ItemNames.Get(itemName)
 				nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 				nameLabel.Font = Enum.Font.GothamBold
 				nameLabel.TextSize = 13

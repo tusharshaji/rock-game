@@ -18,8 +18,19 @@ end)
 local RecipesConfig = require(ReplicatedStorage:WaitForChild("RecipesConfig"))
 local PlayerDataManager = require(ServerScriptService:WaitForChild("PlayerDataManager"))
 
-local starterItemsFolder = ServerStorage:WaitForChild("StarterItems")
+-- Timed wait, not an indefinite one: this module is required by nearly every other server system,
+-- so if StarterItems is ever missing from ServerStorage an open-ended WaitForChild here would stop
+-- InventoryManager from ever loading and take the whole game down with it. New players still get
+-- GUARANTEED_STARTER_ITEMS below regardless of what (if anything) the folder holds.
+local starterItemsFolder = ServerStorage:WaitForChild("StarterItems", 10)
 local dropItemsFolder = ServerStorage:WaitForChild("DropItems")
+
+-- Handed to every brand new player on top of whatever StarterItems contains. The Rock is the tool
+-- the entire early game is gated behind -- without one a fresh player can't gather anything at
+-- all -- so it's guaranteed here in code rather than depending on the Studio-side folder.
+local GUARANTEED_STARTER_ITEMS = {
+	Rock = 1,
+}
 
 local function getOrCreateRemote(name)
 	local event = ReplicatedStorage:FindFirstChild(name)
@@ -182,10 +193,18 @@ local function ensurePlayerDataLoaded(player)
 		pendingXPRestore[player] = saved.xp
 		pendingHungerRestore[player] = saved.hunger
 	else
-		inventories[player] = {}
-		for _, item in ipairs(starterItemsFolder:GetChildren()) do
-			inventories[player][item.Name] = (inventories[player][item.Name] or 0) + 1
+		local inv = {}
+		if starterItemsFolder then
+			for _, item in ipairs(starterItemsFolder:GetChildren()) do
+				inv[item.Name] = (inv[item.Name] or 0) + 1
+			end
 		end
+		-- Top up rather than add: if StarterItems already grants one of these, the player gets
+		-- that amount, not that amount plus another.
+		for itemName, amount in pairs(GUARANTEED_STARTER_ITEMS) do
+			inv[itemName] = math.max(inv[itemName] or 0, amount)
+		end
+		inventories[player] = inv
 	end
 end
 

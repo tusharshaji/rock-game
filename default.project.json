@@ -15,6 +15,9 @@
       },
       "ItemIconRenderer": {
         "$path": "src/replicatedstorage/ItemIconRenderer.luau"
+      },
+      "ItemNames": {
+        "$path": "src/replicatedstorage/ItemNames.luau"
       }
     },
     "ServerScriptService": {

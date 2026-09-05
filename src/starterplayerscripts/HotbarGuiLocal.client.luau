@@ -7,6 +7,13 @@ local equipEvent = ReplicatedStorage:WaitForChild("EquipHotbarTool")
 
 local HotbarState = require(ReplicatedStorage:WaitForChild("HotbarState"))
 local ItemIconRenderer = require(ReplicatedStorage:WaitForChild("ItemIconRenderer"))
+-- Timed wait with a fallback, never an open-ended WaitForChild: ItemNames is a cosmetic helper,
+-- so if it hasn't replicated (or hasn't been synced into the place yet) the UI must still build.
+-- Blocking on it here takes the entire HUD down, which is far worse than raw item names.
+local itemNamesModule = ReplicatedStorage:WaitForChild("ItemNames", 5)
+local ItemNames = itemNamesModule and require(itemNamesModule) or {
+	Get = function(itemName) return itemName or "" end,
+}
 
 local SLOT_KEYS = {
 	[Enum.KeyCode.One] = 1, [Enum.KeyCode.Two] = 2, [Enum.KeyCode.Three] = 3,
@@ -84,6 +91,22 @@ for i = 1, 9 do
 	itemIcon.BackgroundTransparency = 1
 	itemIcon.Parent = slot
 
+	-- Shown only when the item in this slot has no Photobooth icon export to render. Without it
+	-- such a slot looks completely empty and the item reads as lost, even though it's held.
+	local itemLabel = Instance.new("TextLabel")
+	itemLabel.Name = "ItemLabel"
+	itemLabel.Size = UDim2.new(1, -6, 1, -18)
+	itemLabel.Position = UDim2.new(0, 3, 0, 15)
+	itemLabel.BackgroundTransparency = 1
+	itemLabel.Text = ""
+	itemLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	itemLabel.Font = Enum.Font.GothamBold
+	itemLabel.TextSize = 10
+	itemLabel.TextWrapped = true
+	itemLabel.Visible = false
+	itemLabel.ZIndex = 3
+	itemLabel.Parent = slot
+
 	slotFrames[i] = slot
 
 	slot.InputBegan:Connect(function(input)
@@ -98,13 +121,30 @@ for i = 1, 9 do
 	end)
 end
 
-HotbarState.OnUpdate(function(slots, activeSlot)
+local function renderSlots(slots, activeSlot)
 	for i = 1, 9 do
+		local slot = slotFrames[i]
 		local itemName = slots[i]
-		ItemIconRenderer.SetIcon(slotFrames[i].ItemIcon, itemName)
-		slotFrames[i].SelectionBorder.Enabled = (i == activeSlot)
+		local hasIcon = ItemIconRenderer.SetIcon(slot.ItemIcon, itemName)
+
+		-- An occupied slot must always look occupied, icon or not: fall back to the item's
+		-- display name, and brighten the slot itself so it reads as filled either way.
+		local showLabel = itemName ~= nil and not hasIcon
+		slot.ItemLabel.Text = showLabel and ItemNames.Get(itemName) or ""
+		slot.ItemLabel.Visible = showLabel
+		slot.BackgroundTransparency = itemName and 0.05 or 0.2
+
+		slot.SelectionBorder.Enabled = (i == activeSlot)
 	end
-end)
+end
+
+HotbarState.OnUpdate(renderSlots)
+
+-- Paint once from whatever state already exists. MainUIController assigns the starter items as
+-- soon as the server's first inventory sync lands, which can easily happen before this script
+-- has finished its WaitForChild calls and subscribed above -- without this initial pass those
+-- items sit in HotbarState but never appear in the bar.
+renderSlots(HotbarState.GetSlots(), HotbarState.GetActiveSlot())
 
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
 	if gameProcessed then return end
